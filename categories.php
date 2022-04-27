@@ -95,16 +95,17 @@
                       <label for="title"><span class="fieldInfo">Category Title:</span> </label>
                       <input class="form-control" type="text" name="title" id="title" placeholder="Type title here" value="">
                     </div>
-                    <div class="row" style="min-height: 50px; background:yellow;">
+                    <div class="row">
                        <div class="col-lg-6 mb-2">
                          <a href="dashboard.php" class="btn btn-warning btn-block"><i class="fas fa-arrow-left"></i>Back To Dashboard</a>
                        </div>
                        <div class="col-lg-6 mb-2">
-                       <button type="button" name="submit" class="bt btn-success btn-block">
+                       <button type="button" name="submit" class="btn btn-success btn-block">
                          <i class="fas fa-check"></i> Publish
                        </button>
                     </div>
                   </div>
+                </div>
                 </div>
               </form>
            </div>
