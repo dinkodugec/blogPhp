@@ -7,14 +7,22 @@
 if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
 
     $category = $_POST['categoryTitle'];
+    $admin = "Dinko";
      
     if(empty($category)){
       $_SESSION['ErrorMesage'] = "All fields must be filled out";
       redirectTo("categories.php");
+          }elseif(strlen($category)<3){
+            $_SESSION['ErrorMesage'] = "Category title should be greather than two charachters ";
+            redirectTo("categories.php");
+          }elseif(strlen($category)>49){   /* because we put in database varchar(50) */
+            $_SESSION['ErrorMesage'] = "Category title should be less than 50 charachters ";
+            redirectTo("categories.php");
+        }else{
+            //query to insert category in DB when everything is fine
+        }
 
-    }
-
-}
+}  /*  Ending of submit button if-condition */
 
 ?>
 
