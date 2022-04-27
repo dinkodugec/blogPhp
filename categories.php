@@ -1,5 +1,6 @@
 <?php require_once("Includes/db.php") ;?>
 <?php require_once("Includes/functions.php") ;?>
+<?php require_once("Includes/sessions.php") ;?>
 
 <?php 
 
@@ -8,7 +9,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
     $category = $_POST['categoryTitle'];
      
     if(empty($category)){
-      // Error = "All fields must be filled out";
+      $_SESSION['ErrorMesage'] = "All fields must be filled out";
       redirectTo("categories.php");
 
     }
@@ -104,6 +105,9 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
        <section class="container py-2 mb-4">
          <div class="row">
            <div class="offset-lg-1 col-lg-10" style="min-height:400px">
+                <?php echo ErrorMessage();
+                      echo SuccessMessage();
+                ?>
               <form action="categories.php" method="post">
                 <div class="card bg-secondary text-light mb-3">
                   <div class="card-header">
@@ -119,7 +123,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                          <a href="dashboard.php" class="btn btn-warning btn-block"><i class="fas fa-arrow-left"></i>Back To Dashboard</a>
                        </div>
                        <div class="col-lg-6 mb-2">
-                       <button type="button" name="submit" class="btn btn-success btn-block">
+                       <button type="submit" name="submit" class="btn btn-success btn-block">
                          <i class="fas fa-check"></i>Publish
                        </button>
                     </div>
