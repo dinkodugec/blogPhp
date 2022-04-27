@@ -8,6 +8,14 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
 
     $category = $_POST['categoryTitle'];
     $admin = "Dinko";
+
+
+    date_default_timezone_set("Asia/Karachi");
+    $currentTime=time();
+    $dateTime=strftime("%B-%d-%Y %H:%M:%S", $currentTime);
+    
+
+
      
     if(empty($category)){
       $_SESSION['ErrorMesage'] = "All fields must be filled out";
@@ -20,6 +28,22 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
             redirectTo("categories.php");
         }else{
             //query to insert category in DB when everything is fine
+            $sql = "INSERT INTO category(title,author)";
+            $sql .= "VALUES(:categoryName,:adminName)";
+            $stmt = $connectingDB->prepare($sql);
+            $stmt->bindValue(':categoryName',$category);
+            $stmt->bindValue(':adminName', $admin);
+          /*   $stmt->bindValue(':dateTime',$datetime); */
+
+            $excute=$stmt->execute();
+
+            if($excute){
+              $_SESSION['SuccessMessage']="Category with id : ".$connectingDB->lastInsertId()."Added Successfully";
+              redirectTo('categories.php');
+            }else{
+              $_SESSION['ErrorMesage'] = "It is wrong sometimes ";
+              redirectTo("basic.html");
+            }
         }
 
 }  /*  Ending of submit button if-condition */
@@ -48,7 +72,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
     <h1 class="display-3">Hello World</h1>
     <h1 class="display-4">Hello World</h1>  ALL H1 Classes  -->
 
-
+    echo $dateTime;
     
     <!-- NAVBAR -->
      <div style="height:10px; background:#27aae1;"></div>

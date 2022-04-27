@@ -16,11 +16,11 @@ session_start();
 
 function SuccessMessage()
 {
-  if(isset($_SESSION['SuccessMesage'])){
+  if(isset($_SESSION['SuccessMessage'])){
      $output = "<div class=\"alert alert-success\">";
-     $output .= htmlentities($_SESSION['SuccessMesage']);    /*   htmlentities- that we do not break any html */
+     $output .= htmlentities($_SESSION['SuccessMessage']);    /*   htmlentities- that we do not break any html */
      $output .= "</div>";
-     $_SESSION['SuccessMesage'] = null;  /*  clearing session to null */
+     $_SESSION['SuccessMessage'] = null;  /*  clearing session to null */
    
      return $output;
   }
