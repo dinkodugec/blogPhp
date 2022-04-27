@@ -1,3 +1,22 @@
+<?php require_once("Includes/db.php") ;?>
+<?php require_once("Includes/functions.php") ;?>
+
+<?php 
+
+if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
+
+    $category = $_POST['categoryTitle'];
+     
+    if(empty($category)){
+      // Error = "All fields must be filled out";
+      redirectTo("categories.php");
+
+    }
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -93,7 +112,7 @@
                   <div class="card-body bg-dark">
                     <div class="form-group">
                       <label for="title"><span class="fieldInfo">Category Title:</span> </label>
-                      <input class="form-control" type="text" name="title" id="title" placeholder="Type title here" value="">
+                      <input class="form-control" type="text" name="categoryTitle" id="title" placeholder="Type title here" value="">
                     </div>
                     <div class="row">
                        <div class="col-lg-6 mb-2">
@@ -101,7 +120,7 @@
                        </div>
                        <div class="col-lg-6 mb-2">
                        <button type="button" name="submit" class="btn btn-success btn-block">
-                         <i class="fas fa-check"></i> Publish
+                         <i class="fas fa-check"></i>Publish
                        </button>
                     </div>
                   </div>
