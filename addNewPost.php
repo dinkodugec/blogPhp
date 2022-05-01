@@ -150,9 +150,17 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                     <div class="form-group">
                       <label for="categoryTitle"><span class="fieldInfo">Choose Category:</span> </label>
                         <select class="form-control" name="category" id="categoryTitle">
-                          <option value="">1</option>
-                          <option value="">2</option>
-                          <option value="">3</option>
+                           <?php
+                               global $connectingDB;
+                               $sql = "SELECT id,title FROM category";
+                               $stmt = $connectingDB->query($sql);
+                               while($dataRows = $stmt->fetch()){
+                                    $id = $dataRows['id'];
+                                    $categoryName = $dataRows['title'];
+                               
+                            ?>
+                            <option><?php echo$categoryName; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="form-group">
