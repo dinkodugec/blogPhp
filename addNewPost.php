@@ -125,7 +125,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
       <div class="container">
             <div class="row">
                   <div class="col-md-12">
-                    <h1><i class="fas fa-edit"></i>Manage Categories</h1>
+                    <h1><i class="fas fa-edit"></i>Add New Post</h1>
                   </div>
             </div>
       </div>
@@ -142,13 +142,28 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                 ?>
               <form action="categories.php" method="post">
                 <div class="card bg-secondary text-light mb-3">
-                  <div class="card-header">
-                    <h1>Add New Categories</h1>
-                  </div>
                   <div class="card-body bg-dark">
                     <div class="form-group">
-                      <label for="title"><span class="fieldInfo">Category Title:</span> </label>
-                      <input class="form-control" type="text" name="categoryTitle" id="title" placeholder="Type title here" value="">
+                      <label for="title"><span class="fieldInfo">Post Title:</span> </label>
+                      <input class="form-control" type="text" name="postTitle" id="title" placeholder="Type title here" value="">
+                    </div>
+                    <div class="form-group">
+                      <label for="categoryTitle"><span class="fieldInfo">Choose Category:</span> </label>
+                        <select class="form-control" name="category" id="categoryTitle">
+                          <option value="">1</option>
+                          <option value="">2</option>
+                          <option value="">3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-file">
+                         <input class="custom-file-input" type="file" name="image" id="imageSelect" value="">
+                         <label for="imageSelect" class="custom-file-label">Select Image</label>
+                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="post"><span class="fieldInfo">Post :</span></label>
+                      <textarea class="form-control" name="postDescription" id="post" cols="30" rows="10"></textarea>
                     </div>
                     <div class="row">
                        <div class="col-lg-6 mb-2">

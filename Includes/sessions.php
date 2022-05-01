@@ -8,7 +8,7 @@ session_start();
      $output = "<div class=\"alert alert-danger\">";
      $output .= htmlentities($_SESSION['ErrorMesage']);    /*   htmlentities- that we do not break any html */
      $output .= "</div>";
-     $_SESSION['ErrorMesage'] = null;  /*  clearing session to null, so that when is message showed, and we refresh, message is remove from browser*/
+     $_SESSION['ErrorMesage'] = null;  /*  clearing session to null, so that when is message showed, and we refresh, message is remove from browser,so that user can not see anymore*/
    
      return $output;
   }
