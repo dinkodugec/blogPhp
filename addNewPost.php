@@ -32,21 +32,27 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
             redirectTo("addNewPost.php");
         }else{
             //query to insert post in DB when everything is fine
-            $sql = "INSERT INTO category(title,author)";
-            $sql .= "VALUES(:categoryName,:adminName)";
+            $sql = "INSERT INTO posts(title,category,author,image,post)";
+            $sql .= "VALUES(:postTitle,:categoryName,:adminName, :imageName,:postDescription)";
             $stmt = $connectingDB->prepare($sql);
+            $stmt->bindValue(':postTitle',$postTitle);
             $stmt->bindValue(':categoryName',$category);
             $stmt->bindValue(':adminName', $admin);
+            $stmt->bindValue(':imageName', $image);
+            $stmt->bindValue(':postDescription',$postText);
+
           /*   $stmt->bindValue(':dateTime',$datetime); */
 
             $excute=$stmt->execute();
 
+            move_uploaded_file($_FILES['image']['tmp_name'], $target);
+
             if($excute){
-              $_SESSION['SuccessMessage']="Category with id : ".$connectingDB->lastInsertId()."Added Successfully";
-              redirectTo('categories.php');
+              $_SESSION['SuccessMessage']="Post with id : ".$connectingDB->lastInsertId()."Added Successfully";
+              redirectTo('addNewPost.php');
             }else{
               $_SESSION['ErrorMesage'] = "It is wrong sometimes ";
-              redirectTo("basic.html");
+              redirectTo("addNewPost.html");
             }
         }
 
