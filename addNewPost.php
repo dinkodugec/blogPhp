@@ -6,7 +6,11 @@
 
 if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
 
-    $category = $_POST['categoryTitle'];
+    $postTitle = $_POST['postTitle'];
+    $category=$_POST['category'];
+    $image = $_FILES['image']['name'];
+    $target = "Upload/".basename( $_FILES['image']['name']);
+    $postText = $_POST['postDescription'];
     $admin = "Dinko";
 
 
@@ -17,17 +21,17 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
 
 
      
-    if(empty($category)){
-      $_SESSION['ErrorMesage'] = "All fields must be filled out";
-      redirectTo("categories.php");
-          }elseif(strlen($category)<3){
-            $_SESSION['ErrorMesage'] = "Category title should be greather than two charachters ";
-            redirectTo("categories.php");
-          }elseif(strlen($category)>49){   /* because we put in database varchar(50) */
-            $_SESSION['ErrorMesage'] = "Category title should be less than 50 charachters ";
-            redirectTo("categories.php");
+    if(empty($postTitle)){
+      $_SESSION['ErrorMesage'] = "Title can not be empty";
+      redirectTo("addNewPost.php");
+          }elseif(strlen($postTitle)<3){
+            $_SESSION['ErrorMesage'] = "Post title should be greather than two charachters ";
+            redirectTo("addNewPost.php");
+          }elseif(strlen($postTitle)>999){   /* because we put in database varchar(50) */
+            $_SESSION['ErrorMesage'] = "Post description should be less than 1000 charachters ";
+            redirectTo("addNewPost.php");
         }else{
-            //query to insert category in DB when everything is fine
+            //query to insert post in DB when everything is fine
             $sql = "INSERT INTO category(title,author)";
             $sql .= "VALUES(:categoryName,:adminName)";
             $stmt = $connectingDB->prepare($sql);
@@ -140,7 +144,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                 <?php echo ErrorMessage();
                       echo SuccessMessage();
                 ?>
-              <form action="categories.php" method="post">
+              <form action="addNewPost.php" method="post" enctype="multipart/form-data">
                 <div class="card bg-secondary text-light mb-3">
                   <div class="card-body bg-dark">
                     <div class="form-group">
