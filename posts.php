@@ -1,3 +1,8 @@
+<?php require_once("Includes/db.php") ;?>
+<?php require_once("Includes/functions.php") ;?>
+<?php require_once("Includes/sessions.php") ;?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -96,6 +101,61 @@
     </header>
     <!-- END OF HEADER -->
 
+    <!-- MAIN AREA-->
+
+      <section class="container py-2 mb-4">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <table>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Date&Time</th>
+              <th>Author</th>
+              <th>Banner</th>
+              <th>Comments</th>
+              <th>Action</th>
+              <th>LivePreview</th>
+           </tr>
+           <?php
+              global $connectingDB;
+              $sql = "SELECT * FROM posts";
+              $stmt = $connectingDB->query($sql);
+                while($dataRows = $stmt->fetch()){
+                  $id = $dataRows['id'];
+                 /*  $dateTime = $dataRows['datetime']; */
+                  $postTitle = $dataRows['title'];
+                  $category = $dataRows['category'];
+                  $admin = $dataRows['author'];
+                  $image = $dataRows['image'];
+                  $postText = $dataRows['post'];
+                  
+            ?>
+            <tr>
+              <td>#</td>
+              <td><?php echo $postTitle   ; ?></td>
+              <td><?php echo  $category  ; ?></td>
+             <!--  <td><?php echo  $datetime  ; ?></td> -->
+              <td><?php echo   $admin  ; ?></td>
+              <td><?php echo  $image  ; ?></td>
+              <td>comments</td>
+              <td>Action</td>
+              <td>LivePreview</td>
+            </tr>
+
+            <?php } ?>
+
+          </table>
+        </div>
+      </div>
+
+      </section>
+
+
+
+    <!-- MAIN EREA END -->
 
    <!--   FOOTER -->
      <footer class="bg-dark text-white">
