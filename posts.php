@@ -107,22 +107,25 @@
 
       <div class="row">
         <div class="col-lg-12">
-          <table>
+          <table class="table table-striped table-hover">
+            <thead class="thead-dark">
             <tr>
               <th>#</th>
               <th>Title</th>
               <th>Category</th>
-              <th>Date&Time</th>
+            <!--   <th>Date&Time</th> -->
               <th>Author</th>
               <th>Banner</th>
               <th>Comments</th>
               <th>Action</th>
               <th>LivePreview</th>
            </tr>
+           </thead>
            <?php
               global $connectingDB;
               $sql = "SELECT * FROM posts";
               $stmt = $connectingDB->query($sql);
+              $sr = 0;
                 while($dataRows = $stmt->fetch()){
                   $id = $dataRows['id'];
                  /*  $dateTime = $dataRows['datetime']; */
@@ -131,20 +134,39 @@
                   $admin = $dataRows['author'];
                   $image = $dataRows['image'];
                   $postText = $dataRows['post'];
-                  
+                  $sr ++;
             ?>
+            <tbody>
             <tr>
-              <td>#</td>
-              <td><?php echo $postTitle   ; ?></td>
-              <td><?php echo  $category  ; ?></td>
+              <td><?php echo $sr; ?></td>
+              <td class="table-danger">
+                <?php 
+                 if(strlen($postTitle)>20){
+                    $postTitle=substr($postTitle,0,15);
+                  }    
+                echo $postTitle   ; 
+                ?>
+              </td>
+              <td> <?php 
+                 if(strlen($category)>8){
+                    $category=substr($category,0,15);
+                  }    
+                echo $category   ; 
+                ?>
+                </td>
              <!--  <td><?php echo  $datetime  ; ?></td> -->
-              <td><?php echo   $admin  ; ?></td>
-              <td><?php echo  $image  ; ?></td>
+              <td class="table-primary"><?php echo   $admin  ; ?></td>  <!--  if want some blue color for this table row -->
+              <td><img src="Upload/<?php echo  $image  ; ?>" width="170px;" height="50px"</td>
               <td>comments</td>
-              <td>Action</td>
-              <td>LivePreview</td>
+              <td>
+                  <a href=""><span class="btn btn-warning">Edit</span></a>
+                  <a href=""><span class="btn btn-danger">Delete</span></a> 
+              </td>
+              <td>
+                <a href=""><span class="btn btn-primary">Live Preview</span></a>
+              </td>
             </tr>
-
+            </tbody>
             <?php } ?>
 
           </table>
