@@ -1,3 +1,7 @@
+<?php require_once("Includes/db.php") ;?>
+<?php require_once("Includes/functions.php") ;?>
+<?php require_once("Includes/sessions.php") ;?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -75,6 +79,41 @@
            <div class="col-sm-8">
               <h1>The Complete ResponsiveBlog</h1>
               <h1 class="lead">The Complete Blog Using Php by Dinko Dugec</h1>
+              <?php
+                    global $connectingDB;
+
+                    $sql= "SELECT * FROM posts ORDER BY id DESC";
+                    $stmt=$connectingDB->query($sql);
+
+                    while($dataRows = $stmt->fetch()){
+                        $postId=$dataRows['id'];
+                        $postTitle=$dataRows['title'];
+                        $category=$dataRows['category'];
+                        $admin=$dataRows['author'];
+                        $image=$dataRows['image'];
+                        $postDescription=$dataRows['post'];
+
+                     ?>
+
+              <div class="card">
+                <img src="Upload/<?php echo htmlentities($image) ;?>" style="max: height 450px;" class="img-fluid card-img-top"/>
+                <div class="card-body">
+                   <h4 class="card-title"><?php echo htmlentities($postTitle)  ;?></h4>
+                   <small class="text-muted">written by <?php echo htmlentities($admin) ;?></</small>
+                   <span style="float:right;" class="badge badge-dark text-light">Comments 20</span>
+                   <hr>
+                   <p class="card-text">
+                     <?php if(strlen($postDescription)>150){
+                       $postDescription = substr($postDescription,0,150)."...";
+                     }
+                     echo $postDescription ;?></</p>
+                   <a href="fullPost.php" 
+                      style="float:right">
+                    <span class="btn btn-info">Read More</span>
+                  </a>
+                </div>
+             </div>     
+              <?php } ?>    <!--  Ending while loop -->
           </div>
         <!--   **********Main Area End********** -->
 
