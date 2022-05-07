@@ -59,7 +59,8 @@
                 <form action="blog.php" class="form-inline d-none d-sm-block" >
                   <div class="form-group">
                     <input type="text" class="form-control mr-2" name="search" placeholder="Search here..." value="">
-                    <button type="button" class="btn btn-primary" name="searchButton">Go</button>
+                    <button class="btn btn-primary" name="searchButton">Go</button>
+                  
                   </div>
                 </form> 
             </ul>
@@ -80,10 +81,22 @@
               <h1>The Complete ResponsiveBlog</h1>
               <h1 class="lead">The Complete Blog Using Php by Dinko Dugec</h1>
               <?php
-                    global $connectingDB;
+                   global $connectingDB;
 
-                    $sql= "SELECT * FROM posts ORDER BY id DESC";
+                  if(isset($_GET['searchButton'])){
+                    $search = $_GET['search'];
+                    $sql = "SELECT * FROM posts 
+                            WHERE post LIKE :search 
+                            OR title LIKE :search 
+                            OR category LIKE :search";
+                            $stmt=$connectingDB->prepare($sql);
+                            $stmt->bindValue(':search', '%'.$search.'%');
+                            $stmt->execute();
+                    }else{
+                    $sql= "SELECT * FROM posts ORDER BY id DESC";   /* beacause is desc it shows last post */
                     $stmt=$connectingDB->query($sql);
+                  }   
+                  
 
                     while($dataRows = $stmt->fetch()){
                         $postId=$dataRows['id'];
