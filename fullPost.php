@@ -80,9 +80,6 @@
            <div class="col-sm-8">
               <h1>The Complete ResponsiveBlog</h1>
               <h1 class="lead">The Complete Blog Using Php by Dinko Dugec</h1>
-              <?php echo ErrorMessage();
-                      echo SuccessMessage();
-                ?>
               <?php
                    global $connectingDB;
 
@@ -96,7 +93,12 @@
                             $stmt->bindValue(':search', '%'.$search.'%');
                             $stmt->execute();
                     }else{
-                    $sql= "SELECT * FROM posts ORDER BY id DESC";   /* beacause is desc it shows last post */
+                      $postIdFromUrl=$_GET['id'];
+                      if(!isset($postIdFromUrl)){
+                        $_SESSION['ErrorMessage']="BAD REQUEST";  //FOR BAD people with not so good intentions
+                        redirectTo("blog.php");
+                      }
+                    $sql= "SELECT * FROM posts WHERE id='$postIdFromUrl'";   
                     $stmt=$connectingDB->query($sql);
                   }   
                   
@@ -119,14 +121,9 @@
                    <span style="float:right;" class="badge badge-dark text-light">Comments 20</span>
                    <hr>
                    <p class="card-text">
-                     <?php if(strlen($postDescription)>150){
-                       $postDescription = substr($postDescription,0,150)."...";
-                     }
-                     echo $postDescription ;?></</p>
-                   <a href="fullPost.php?id=<?php echo $postId; ?>"
-                      style="float:right">
-                    <span class="btn btn-info">Read More</span>
-                  </a>
+                     <?php 
+                     echo htmlentities($postDescription)  ;?></</p>
+                  
                 </div>
              </div>     
               <?php } ?>    <!--  Ending while loop -->
