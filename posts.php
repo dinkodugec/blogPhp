@@ -159,11 +159,11 @@
               <td><img src="Upload/<?php echo  $image  ; ?>" width="170px;" height="50px"</td>
               <td>comments</td>
               <td>
-                  <a href=""><span class="btn btn-warning">Edit</span></a>
-                  <a href=""><span class="btn btn-danger">Delete</span></a> 
+                  <a href="editPost.php?id=<?php echo $id; ?>"><span class="btn btn-warning">Edit</span></a>
+                  <a href="deletePost.php?id=<?php echo $id; ?>"><span class="btn btn-danger">Delete</span></a> 
               </td>
               <td>
-                <a href=""><span class="btn btn-primary">Live Preview</span></a>
+                <a href="fullPost.php?id=<?php echo $id; ?>" target="_blank"><span class="btn btn-primary">Live Preview</span></a>
               </td>
             </tr>
             </tbody>
