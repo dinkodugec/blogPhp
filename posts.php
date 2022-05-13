@@ -107,6 +107,9 @@
 
       <div class="row">
         <div class="col-lg-12">
+                 <?php echo ErrorMessage();
+                      echo SuccessMessage();
+                 ?>
           <table class="table table-striped table-hover">
             <thead class="thead-dark">
             <tr>

@@ -4,6 +4,8 @@
 
 <?php 
 
+$searchQueryParameter = $_GET['id'];
+
 if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
 
     $postTitle = $_POST['postTitle'];
@@ -23,37 +25,39 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
      
     if(empty($postTitle)){
       $_SESSION['ErrorMesage'] = "Title can not be empty";
-      redirectTo("addNewPost.php");
+      redirectTo("editPost.php");
           }elseif(strlen($postTitle)<3){
             $_SESSION['ErrorMesage'] = "Post title should be greather than two charachters ";
-            redirectTo("addNewPost.php");
-          }elseif(strlen($postTitle)>999){   /* because we put in database varchar(50) */
+            redirectTo("posts.php");
+          }elseif(strlen($postTitle)>9999){   /* because we put in database varchar(50) */
             $_SESSION['ErrorMesage'] = "Post description should be less than 1000 charachters ";
-            redirectTo("addNewPost.php");
+            redirectTo("posts.php");
         }else{
-            //query to insert post in DB when everything is fine
-            $sql = "INSERT INTO posts(title,category,author,image,post)";
-            $sql .= "VALUES(:postTitle,:categoryName,:adminName, :imageName,:postDescription)";
-            $stmt = $connectingDB->prepare($sql);
-            $stmt->bindValue(':postTitle',$postTitle);
-            $stmt->bindValue(':categoryName',$category);
-            $stmt->bindValue(':adminName', $admin);
-            $stmt->bindValue(':imageName', $image);
-            $stmt->bindValue(':postDescription',$postText);
-
-          /*   $stmt->bindValue(':dateTime',$datetime); */
-
-            $excute=$stmt->execute();
+            //query to update post in DB when everything is fine
+           global $connectingDB;
+           if(!empty($_FILES['image']['name'])){
+              $sql = "UPDATE posts
+              SET title='$postTitle', category='$category', image='$image', post='$postText'
+              WHERE id='$searchQueryParameter'";
+           }else{
+              $sql = "UPDATE posts
+              SET title='$postTitle', category='$category', post='$postText'
+              WHERE id='$searchQueryParameter'";
+           }
+        
+           $excute = $connectingDB->query($sql);
 
             move_uploaded_file($_FILES['image']['tmp_name'], $target);
 
-            if($excute){
-              $_SESSION['SuccessMessage']="Post with id : ".$connectingDB->lastInsertId()."Added Successfully";
-              redirectTo('addNewPost.php');
+           
+
+             if($excute){
+              $_SESSION['SuccessMessage']="Post updated Successfully";
+              redirectTo('posts.php');
             }else{
-              $_SESSION['ErrorMesage'] = "It is wrong sometimes ";
-              redirectTo("addNewPost.html");
-            }
+              $_SESSION['ErrorMesage'] = "It is wrong sometimes, try again ";
+              redirectTo("posts.php");
+            } 
         }
 
 }  /*  Ending of submit button if-condition */
@@ -152,7 +156,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                       //Fetching Existing Content according to our
 
                       global $connectingDB;
-                      $searchQueryParameter = $_GET['id'];
+                     
                       $sql = "SELECT * FROM posts WHERE id='$searchQueryParameter'";
                       $stmt = $connectingDB->query($sql);
 
@@ -163,7 +167,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                         $postToBeUpdated = $dataRows['post'];
                       }
                 ?>
-              <form action="addNewPost.php" method="post" enctype="multipart/form-data">
+              <form action="editPost.php?id=<?php echo $searchQueryParameter; ?>" method="post" enctype="multipart/form-data">
                 <div class="card bg-secondary text-light mb-3">
                   <div class="card-body bg-dark">
                     <div class="form-group">

@@ -24,14 +24,15 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
     if(empty($postTitle)){
       $_SESSION['ErrorMesage'] = "Title can not be empty";
       redirectTo("addNewPost.php");
-          }elseif(strlen($postTitle)<3){
+          }elseif(strlen($postTitle)<5){
             $_SESSION['ErrorMesage'] = "Post title should be greather than two charachters ";
             redirectTo("addNewPost.php");
-          }elseif(strlen($postTitle)>999){   /* because we put in database varchar(50) */
+          }elseif(strlen($postTitle)>9999){   /* because we put in database varchar(50) */
             $_SESSION['ErrorMesage'] = "Post description should be less than 1000 charachters ";
             redirectTo("addNewPost.php");
         }else{
             //query to insert post in DB when everything is fine
+            global $connectingDB;
             $sql = "INSERT INTO posts(title,category,author,image,post)";
             $sql .= "VALUES(:postTitle,:categoryName,:adminName, :imageName,:postDescription)";
             $stmt = $connectingDB->prepare($sql);
