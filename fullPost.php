@@ -1,6 +1,7 @@
 <?php require_once("Includes/db.php") ;?>
 <?php require_once("Includes/functions.php") ;?>
 <?php require_once("Includes/sessions.php") ;?>
+<?php $searchQueryParameter = $_GET['id']; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -127,6 +128,41 @@
                 </div>
              </div>     
               <?php } ?>    <!--  Ending while loop -->
+
+
+            <div>
+              <form action="fullPost.php?=<?php echo $searchQueryParameter;  ?>" method="post">
+                <div class="card mb-3">
+                    <div class="card-header">
+                      <h5 class="fieldInfo">Share your thoughts</h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" ><i class="fas fa-user"></i></span>
+                        </div>
+                        <input class="form-control" type="text" name="commentarName" placeholder="name" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" ><i class="fas fa-envelope"></i></span>
+                        </div>
+                        <input class="form-control" type="email" name="commentarEmail" placeholder="email" value="">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <textarea name="commentarThoughts" class="form-control" id="" cols="30" rows="6"></textarea>
+                    </div>
+                    <div>
+                      <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                   </div>
+               
+              </form>
+            </div>  
           </div>
         <!--   **********Main Area End********** -->
 
