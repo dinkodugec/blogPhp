@@ -5,6 +5,18 @@
 <?php 
 
 $searchQueryParameter = $_GET['id'];
+//Fetching Existing Content according to our post
+global $connectingDB;
+                     
+$sql = "SELECT * FROM posts WHERE id='$searchQueryParameter'";
+$stmt = $connectingDB->query($sql);
+
+while($dataRows = $stmt->fetch()){
+  $titleToBeDeleted = $dataRows['title'];
+  $categoryToBeDeleted = $dataRows['category'];
+  $imageToBeDeleted = $dataRows['image'];
+  $postToBeDeleted = $dataRows['post'];
+}
 
 if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
             //query to delete post in DB when everything is fine
@@ -14,6 +26,8 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
 
           
              if($excute){
+              $Target_Path_to_Delete_Image = "Upload/$imageToBeDeleted";
+              unlink(  $Target_Path_to_Delete_Image);
               $_SESSION['SuccessMessage']="Post DELETED Successfully";
               redirectTo('posts.php');
             }else{
@@ -115,39 +129,27 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
            <div class="offset-lg-1 col-lg-10" style="min-height:400px">
                 <?php echo ErrorMessage();
                       echo SuccessMessage();
-                      //Fetching Existing Content according to our
-
-                      global $connectingDB;
-                     
-                      $sql = "SELECT * FROM posts WHERE id='$searchQueryParameter'";
-                      $stmt = $connectingDB->query($sql);
-
-                      while($dataRows = $stmt->fetch()){
-                        $titleToBeUpdated = $dataRows['title'];
-                        $categoryToBeUpdated = $dataRows['category'];
-                        $imageToBeUpdated = $dataRows['image'];
-                        $postToBeUpdated = $dataRows['post'];
-                      }
                 ?>
+
               <form action="deletePost.php?id=<?php echo $searchQueryParameter; ?>" method="post" enctype="multipart/form-data">
                 <div class="card bg-secondary text-light mb-3">
                   <div class="card-body bg-dark">
                     <div class="form-group">
                       <label for="title"><span class="fieldInfo">Post Title:</span> </label>
-                      <input disabled class="form-control" type="text" name="postTitle" id="title" placeholder="Type title here" value="<?php echo $titleToBeUpdated   ?>">
+                      <input disabled class="form-control" type="text" name="postTitle" id="title" placeholder="Type title here" value="<?php echo $titleToBeDeleted   ?>">
                     </div>
                     <div class="form-group">
                       <span class="fieldInfo">Existing Category: </span>
-                        <?php echo $categoryToBeUpdated; ?>
+                        <?php echo $categoryToBeDeleted; ?>
                     </div>
                     <div class="form-group">
                     <span class="fieldInfo">Existing Image: </span>
-                    <img class="mb-1" src="Upload/<?php echo $imageToBeUpdated; ?>" width="170px"; height="70px" alt="">
+                    <img class="mb-1" src="Upload/<?php echo $imageToBeDeleted; ?>" width="170px"; height="70px" alt="">
                     </div>
                     <div class="form-group">
                       <label for="post"><span class="fieldInfo">Post :</span></label>
                       <textarea disabled class="form-control" name="postDescription" id="post" cols="30" rows="10">
-                        <?php echo $postToBeUpdated;?>
+                        <?php echo $postToBeDeleted;?>
                       </textarea>
                     </div>
                     <div class="row">
