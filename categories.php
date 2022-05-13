@@ -28,6 +28,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
             redirectTo("categories.php");
         }else{
             //query to insert category in DB when everything is fine
+            global $connectingDB;
             $sql = "INSERT INTO category(title,author)";
             $sql .= "VALUES(:categoryName,:adminName)";
             $stmt = $connectingDB->prepare($sql);

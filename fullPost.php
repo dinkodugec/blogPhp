@@ -3,6 +3,55 @@
 <?php require_once("Includes/sessions.php") ;?>
 <?php $searchQueryParameter = $_GET['id']; ?>
 
+<?php 
+
+if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
+
+    $name = $_POST['commentarName'];
+    $email = $_POST['commentarEmail'];
+    $comment = $_POST['commentarThoughts'];
+
+    /* date_default_timezone_set("Asia/Karachi");
+    $currentTime=time();
+    $dateTime=strftime("%B-%d-%Y %H:%M:%S", $currentTime); */
+    
+
+
+     
+    if(empty($name) || empty($email) || empty($comment)){
+          $_SESSION['ErrorMesage'] = "All fields must be filled out";
+          redirectTo("fullPost.php?id={$searchQueryParameter}");
+          }elseif(strlen($comment)>443){
+            $_SESSION['ErrorMesage'] = "Comment lenght should be less than 444 charachters ";
+            redirectTo("fullPost.php?id={$searchQueryParameter}");
+          }else{
+            //query to insert comment in DB when everything is fine
+            global $connectingDB;
+            $sql = "INSERT INTO comments(name,email,comment,approvedby,status)";
+            $sql .= "VALUES(:name,:email,:comment,'Pending','OFF')";
+            $stmt = $connectingDB->prepare($sql);
+            $stmt->bindValue(':name',$name);
+            $stmt->bindValue(':email', $email);
+            $stmt->bindValue(':comment', $comment);
+          /*   $stmt->bindValue(':dateTime',$datetime); */
+
+            $excute=$stmt->execute();
+           
+
+            if($excute){
+              $_SESSION['SuccessMessage']="Comment Submitted Successfully";
+              redirectTo("fullPost.php?id={$searchQueryParameter}");
+            }else{
+              $_SESSION['ErrorMesage'] = "It is wrong sometimes ";
+              redirectTo("fullPost.php?id={$searchQueryParameter}");
+            } 
+        }
+      
+
+}  /*  Ending of submit button if-condition */
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -80,7 +129,10 @@
              <!--  ******Main Area****** -->
            <div class="col-sm-8">
               <h1>The Complete ResponsiveBlog</h1>
-              <h1 class="lead">The Complete Blog Using Php by Dinko Dugec</h1>
+               <h1 class="lead">The Complete Blog Using Php by Dinko Dugec</h1>
+               <?php echo ErrorMessage();
+                      echo SuccessMessage();
+                ?>
               <?php
                    global $connectingDB;
 
@@ -130,8 +182,8 @@
               <?php } ?>    <!--  Ending while loop -->
 
 
-            <div>
-              <form action="fullPost.php?=<?php echo $searchQueryParameter;  ?>" method="post">
+            <div class="">
+              <form class="" action="fullPost.php?=<?php echo $searchQueryParameter;  ?>" method="post">
                 <div class="card mb-3">
                     <div class="card-header">
                       <h5 class="fieldInfo">Share your thoughts</h5>
@@ -156,7 +208,7 @@
                     <div class="form-group">
                       <textarea name="commentarThoughts" class="form-control" id="" cols="30" rows="6"></textarea>
                     </div>
-                    <div>
+                    <div class="">
                       <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                     </div>
                    </div>
