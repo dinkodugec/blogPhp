@@ -19,13 +19,13 @@ if(isset($_POST["submit"])){        /* this submit must match name which you gav
           }else{
             //query to insert comment in DB when everything is fine
             global $connectingDB;
-            $sql = "INSERT INTO comments(name,email,comment,approvedby,status, post_id)";
-            $sql .= "VALUES(:name,:email,:comment,'Pending','OFF', :postIdFromURL)";
+            $sql  = "INSERT INTO comments(name,email,comment,approvedby,status,post_id)";
+            $sql .= "VALUES(:name,:email,:comment,'Pending','OFF',:postIdFromURL)";
             $stmt = $connectingDB->prepare($sql);
             $stmt->bindValue(':name',$name);
             $stmt->bindValue(':email',$email);
             $stmt->bindValue(':comment',$comment);
-            $stmt->bindValue(':postIdFromURL',$searchQueryParameter); 
+            $stmt -> bindValue(':postIdFromURL',$SearchQueryParameter);
             $excute=$stmt->execute();
               
                if($excute){
@@ -171,7 +171,36 @@ if(isset($_POST["submit"])){        /* this submit must match name which you gav
              </div>     
               <?php } ?>    <!--  Ending while loop -->
 
+          <!--     *******Fetching existing comment*********
+ -->
+                     
+        <span class="FieldInfo">Comments</span>
+        <br><br>             
+         <?php
+        global $connectingDB;
+        $sql = "SELECT * FROM comments 
+        WHERE post_id='$searchQueryParameter' AND status='ON'";
+        $stmt= $connectingDB->query($sql);
+         while ($dataRows = $stmt->fetch()){
+        $commentarName = $dataRows['name'];
+        $commentarContent = $dataRows['comment'];
+                     
+        ?>
 
+       <div>
+        <div class="media commentBlock">
+          <img class="d-block img-fluid align-self-start" src="images/comment.png" alt="">
+            <div class="media-body ml-2">
+              <h6 class="lead"><?php echo $commentarName; ?></h6>
+                <p><?php echo $commentarContent; ?></p>
+            </div>
+          </div>
+         </div>
+          <hr>
+      <?php   }   ?>
+
+        <!--       ******* The End Fetching existing comment*********
+ -->
             <div class="">
               <form class="" action="fullPost.php?=<?php echo $searchQueryParameter;  ?>" method="post">
                 <div class="card mb-3">
