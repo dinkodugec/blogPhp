@@ -5,20 +5,12 @@
 
 <?php 
 
-if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
-
-    $name = $_POST['commentarName'];
-    $email = $_POST['commentarEmail'];
-    $comment = $_POST['commentarThoughts'];
-
-    /* date_default_timezone_set("Asia/Karachi");
-    $currentTime=time();
-    $dateTime=strftime("%B-%d-%Y %H:%M:%S", $currentTime); */
+if(isset($_POST["submit"])){        /* this submit must match name which you gave this buttom */
+    $name = $_POST["commentarName"];
+    $email = $_POST["commentarEmail"];
+    $comment = $_POST["commentarThoughts"];
     
-
-
-     
-    if(empty($name) || empty($email) || empty($comment)){
+    if(empty($name)||empty($email)||empty($comment)){
           $_SESSION['ErrorMesage'] = "All fields must be filled out";
           redirectTo("fullPost.php?id={$searchQueryParameter}");
           }elseif(strlen($comment)>443){
@@ -27,24 +19,22 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
           }else{
             //query to insert comment in DB when everything is fine
             global $connectingDB;
-            $sql = "INSERT INTO comments(name,email,comment,approvedby,status)";
-            $sql .= "VALUES(:name,:email,:comment,'Pending','OFF')";
+            $sql = "INSERT INTO comments(name,email,comment,approvedby,status, post_id)";
+            $sql .= "VALUES(:name,:email,:comment,'Pending','OFF', :postIdFromURL)";
             $stmt = $connectingDB->prepare($sql);
             $stmt->bindValue(':name',$name);
-            $stmt->bindValue(':email', $email);
-            $stmt->bindValue(':comment', $comment);
-          /*   $stmt->bindValue(':dateTime',$datetime); */
-
+            $stmt->bindValue(':email',$email);
+            $stmt->bindValue(':comment',$comment);
+            $stmt->bindValue(':postIdFromURL',$searchQueryParameter); 
             $excute=$stmt->execute();
-           
-
-            if($excute){
+              
+               if($excute){
               $_SESSION['SuccessMessage']="Comment Submitted Successfully";
               redirectTo("fullPost.php?id={$searchQueryParameter}");
             }else{
-              $_SESSION['ErrorMesage'] = "It is wrong sometimes ";
+              $_SESSION['ErrorMesage'] = "It is wrong sometimes, Try again ";
               redirectTo("fullPost.php?id={$searchQueryParameter}");
-            } 
+             }
         }
       
 
