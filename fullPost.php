@@ -177,14 +177,13 @@ if(isset($_POST["submit"])){        /* this submit must match name which you gav
         <span class="FieldInfo">Comments</span>
         <br><br>             
          <?php
-        global $connectingDB;
-        $sql = "SELECT * FROM comments 
-        WHERE post_id='$searchQueryParameter' AND status='ON'";
-        $stmt= $connectingDB->query($sql);
-         while ($dataRows = $stmt->fetch()){
-        $commentarName = $dataRows['name'];
-        $commentarContent = $dataRows['comment'];
-                     
+         global $connectingDB;
+         $sql = "SELECT * FROM comments 
+         WHERE post_id='$searchQueryParameter' AND status='ON'";
+         $stmt= $connectingDB->query($sql);
+         while($dataRows = $stmt->fetch()){
+          $commentarName = $dataRows['name'];
+          $commentarContent = $dataRows['comment'];
         ?>
 
        <div>
