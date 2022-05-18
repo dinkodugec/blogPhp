@@ -30,7 +30,10 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
           }elseif($password !== $confirmPassword){   /* because we put in database varchar(50) */
             $_SESSION['ErrorMesage'] = "Password and Confirm Password should match" ;
             redirectTo("admin.php");
-        }else{
+          }elseif(checkUserNameExistsOrNot($username)){   
+           $_SESSION['ErrorMesage'] = "Username exists. Try another one!" ;
+          redirectTo("admin.php");
+          }else{
             //query to insert new admin in DB when everything is fine
             global $connectingDB;
             $sql = "INSERT INTO admins(username,password,aname,addedby)";
