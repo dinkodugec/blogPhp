@@ -6,44 +6,50 @@
 
 if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
 
-    $category = $_POST['categoryTitle'];
+    $username = $_POST['username'];
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+    $confirmPassword =  $_POST['confirmPassword'];
     $admin = "Dinko";
+   
 
 
-    date_default_timezone_set("Asia/Karachi");
+    /* date_default_timezone_set("Asia/Karachi");
     $currentTime=time();
-    $dateTime=strftime("%B-%d-%Y %H:%M:%S", $currentTime);
+    $dateTime=strftime("%B-%d-%Y %H:%M:%S", $currentTime); */
     
 
 
      
-    if(empty($category)){
+    if(empty($username) || empty($password) || empty($confirmPassword)){
       $_SESSION['ErrorMesage'] = "All fields must be filled out";
-      redirectTo("categories.php");
-          }elseif(strlen($category)<3){
-            $_SESSION['ErrorMesage'] = "Category title should be greather than two charachters ";
-            redirectTo("categories.php");
-          }elseif(strlen($category)>49){   /* because we put in database varchar(50) */
-            $_SESSION['ErrorMesage'] = "Category title should be less than 50 charachters ";
-            redirectTo("categories.php");
+      redirectTo("admin.php");
+          }elseif(strlen($password)<4){
+            $_SESSION['ErrorMesage'] = "Password should be greather than three charachters ";
+            redirectTo("admin.php");
+          }elseif($password !== $confirmPassword){   /* because we put in database varchar(50) */
+            $_SESSION['ErrorMesage'] = "Password and Confirm Password should match" ;
+            redirectTo("admin.php");
         }else{
-            //query to insert category in DB when everything is fine
+            //query to insert new admin in DB when everything is fine
             global $connectingDB;
-            $sql = "INSERT INTO category(title,author)";
-            $sql .= "VALUES(:categoryName,:adminName)";
+            $sql = "INSERT INTO admins(username,password,aname,addedby)";
+            $sql .= "VALUES(:username,:password,:aname,:adminName)";
             $stmt = $connectingDB->prepare($sql);
-            $stmt->bindValue(':categoryName',$category);
+            $stmt->bindValue(':username',$username);
+            $stmt->bindValue(':password', $password);
+            $stmt->bindValue(':aname', $name);
             $stmt->bindValue(':adminName', $admin);
           /*   $stmt->bindValue(':dateTime',$datetime); */
 
             $excute=$stmt->execute();
 
             if($excute){
-              $_SESSION['SuccessMessage']="Category with id : ".$connectingDB->lastInsertId()."Added Successfully";
-              redirectTo('categories.php');
+              $_SESSION['SuccessMessage']="New admin added Successfully";
+              redirectTo('admin.php');
             }else{
               $_SESSION['ErrorMesage'] = "It is wrong sometimes ";
-              redirectTo("basic.html");
+              redirectTo("admin.php");
             }
         }
 
@@ -98,7 +104,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                         <a href="categories.php" class="nav-link">Categories</a>  
                   </li>
                   <li class="nav-item">
-                        <a href="admins.php" class="nav-link">Manage Admins</a>  
+                        <a href="admin.php" class="nav-link">Manage Admins</a>  
                   </li>
                   <li class="nav-item">
                         <a href="comments.php" class="nav-link">Comments</a>  
@@ -153,16 +159,16 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                     </div>
                     <div class="form-group">
                       <label for="name"><span class="fieldInfo"> Name:</span> </label>
-                      <input class="form-control" type="name" name="name" id="name" >
+                      <input class="form-control" type="text" name="name" id="name" >
                       <small class="text-muted">Optional</small>
                     </div>
                     <div class="form-group">
-                      <label for="title"><span class="fieldInfo">Password:</span> </label>
-                      <input class="form-control" type="password" name="password" id="password">
+                      <label for="password"><span class="fieldInfo">Password:</span> </label>
+                      <input class="form-control" type="text" name="password" id="password">
                     </div>
                     <div class="form-group">
-                      <label for="title"><span class="fieldInfo">Confirm Password:</span> </label>
-                      <input class="form-control" type="confirmPassword" name="confirmPassword" id="password" >
+                      <label for="confirmPassword"><span class="fieldInfo">Confirm Password:</span> </label>
+                      <input class="form-control" type="text" name="confirmPassword" id="confirmPassword" >
                     </div>
                     <div class="row">
                        <div class="col-lg-6 mb-2">
