@@ -11,7 +11,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
     $image = $_FILES['image']['name'];
     $target = "Upload/".basename( $_FILES['image']['name']);
     $postText = $_POST['postDescription'];
-    $admin = "Dinko";
+    $admin = $_SESSION["username"];
 
 
     date_default_timezone_set("Asia/Karachi");

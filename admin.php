@@ -10,7 +10,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
     $name = $_POST['name'];
     $password = $_POST['password'];
     $confirmPassword =  $_POST['confirmPassword'];
-    $admin = "Dinko";
+    $admin = $_SESSION["username"];
    
 
 

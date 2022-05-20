@@ -7,7 +7,7 @@
 if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
 
     $category = $_POST['categoryTitle'];
-    $admin = "Dinko";
+    $admin =   $_SESSION["username"];
 
 
     date_default_timezone_set("Asia/Karachi");
