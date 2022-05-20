@@ -21,5 +21,21 @@ function checkUserNameExistsOrNot($username)
   }
 }
 
+function Login_Attempt($username,$password)
+{
+  global $connectingDB;
+  $sql = "SELECT * FROM admins WHERE username=:username AND password=:password LIMIT 1";
+  $stmt = $connectingDB->prepare($sql);
+  $stmt->bindValue(':username',$username);
+  $stmt->bindValue(':password',$password);
+  $stmt->execute();
+  $result = $stmt->rowcount();
+    if($result==1) {
+    return  $foundAccount = $stmt->fetch();
+    }else {
+    return null;
+  }
+}
+
 
 ?>

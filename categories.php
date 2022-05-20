@@ -18,13 +18,13 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
 
      
     if(empty($category)){
-      $_SESSION['ErrorMesage'] = "All fields must be filled out";
+      $_SESSION['ErrorMessage'] = "All fields must be filled out";
       redirectTo("categories.php");
           }elseif(strlen($category)<3){
-            $_SESSION['ErrorMesage'] = "Category title should be greather than two charachters ";
+            $_SESSION['ErrorMessage'] = "Category title should be greather than two charachters ";
             redirectTo("categories.php");
           }elseif(strlen($category)>49){   /* because we put in database varchar(50) */
-            $_SESSION['ErrorMesage'] = "Category title should be less than 50 charachters ";
+            $_SESSION['ErrorMessage'] = "Category title should be less than 50 charachters ";
             redirectTo("categories.php");
         }else{
             //query to insert category in DB when everything is fine
@@ -42,7 +42,7 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
               $_SESSION['SuccessMessage']="Category with id : ".$connectingDB->lastInsertId()."Added Successfully";
               redirectTo('categories.php');
             }else{
-              $_SESSION['ErrorMesage'] = "It is wrong sometimes ";
+              $_SESSION['ErrorMessage'] = "It is wrong sometimes ";
               redirectTo("basic.html");
             }
         }

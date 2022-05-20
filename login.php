@@ -1,3 +1,41 @@
+<?php require_once("Includes/db.php") ;?>
+<?php require_once("Includes/functions.php") ;?>
+<?php require_once("Includes/sessions.php") ;?>
+
+<?php
+
+/* if(isset($_SESSION["userId"])){
+  redirectTo("dashboard.php");
+}
+ */
+   if(isset($_POST["submit"])) {
+      $username = $_POST["username"];
+      $password = $_POST["password"];
+         if (empty($username)||empty($password)) {
+          $_SESSION["ErrorMessage"]= "All fields must be filled out";
+          redirectTo("login.php");
+         }else {
+
+         
+
+   // code for checking username and password from Database
+    $foundAccount=Login_Attempt( $username,$password);
+      if ($foundAccount) {
+        $_SESSION["userId"]=$foundAccount["id"];
+        $_SESSION["username"]=$foundAccount["username"];
+        $_SESSION["adminName"]=$foundAccount["aname"];
+        $_SESSION["SuccessMessage"]= "Wellcome ".$_SESSION["adminName"]."!";
+    
+        }else {
+        $_SESSION["ErrorMessage"]="Incorrect Username/Password";
+      redirectTo("login.php");
+    }
+  } 
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -58,12 +96,16 @@
       <div class="row">
         <div class="offset-sm-3 col-sm-6" style="min-height:500px;">
         <br><br>
+                <?php echo ErrorMessage();
+                      echo SuccessMessage();
+                 ?>
           <div class="card bg-secondary text-light">
-            <div class="card-header">
-              <h4>Wellcome Back !</h4>
+              <div class="card-header">
+               <h4>Wellcome Back !</h4>
               </div>
-                <div class="card-body bg-dark">
-              <form class="" action="login.php" method="post">
+          <div class="card-body bg-dark">
+             
+              <form action="login.php" method="post">
                 <div class="form-group">
                   <label for="username"><span class="fieldInfo">Username:</span></label>
                   <div class="input-group mb-3">
@@ -85,7 +127,7 @@
                 <input type="submit" name="submit" class="btn btn-info btn-block" value="login">
               </form>
 
-            </div> 
+          </div> 
 
           </div>
 
