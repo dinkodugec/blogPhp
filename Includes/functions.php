@@ -37,5 +37,16 @@ function Login_Attempt($username,$password)
   }
 }
 
+ function confirmLogin()
+ {
+     if(isset($_SESSION['userId'])){
+       return true;
+     }else{
+      $_SESSION["ErrorMessage"]="Login Required !";
+      redirectTo("login.php");
+     }
+
+ }
+
 
 ?>
