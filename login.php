@@ -25,10 +25,14 @@
         $_SESSION["username"]=$foundAccount["username"];
         $_SESSION["adminName"]=$foundAccount["aname"];
         $_SESSION["SuccessMessage"]= "Wellcome ".$_SESSION["adminName"]."!";
+        if(isset( $_SESSION["trackingURL"])){
+          redirectTo($_SESSION["trackingURL"]);
+        }else{
           redirectTo("dashboard.php");
+        }
         }else {
         $_SESSION["ErrorMessage"]="Incorrect Username/Password";
-      redirectTo("login.php");
+        redirectTo("login.php");
     }
   } 
 }
