@@ -4,10 +4,10 @@
 
 <?php
 
-/* if(isset($_SESSION["userId"])){
+ if(isset($_SESSION["userId"])){
   redirectTo("dashboard.php");
 }
- */
+ 
    if(isset($_POST["submit"])) {
       $username = $_POST["username"];
       $password = $_POST["password"];
