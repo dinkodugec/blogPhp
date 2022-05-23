@@ -92,6 +92,9 @@
     <section class="container py-2 mb-4">
       <div class="row" style="min-height:30px;">
         <div class="col-lg-12" style="min-height:400px;">
+                <?php echo ErrorMessage();
+                      echo SuccessMessage();
+                ?>
           <h2>UnApproved Comments</h2>
           <table class="table table-striped table-hover">
             <thead class="thead-dark">
@@ -122,7 +125,7 @@
               <td><?php echo htmlentities($srno); ?></td>
               <td><?php echo htmlentities( $commenterName); ?></td>
               <td><?php echo htmlentities  ($commentContent); ?></td>
-              <td> <a href="approveComments.php?id=<?php echo $commentId;?>" class="btn btn-success">Approve</a> </td>
+              <td> <a href="approvedComments.php?id=<?php echo $commentId;?>" class="btn btn-success">Approve</a> </td>
               <td> <a href="deleteComments.php?id=<?php echo $commentId;?>" class="btn btn-danger">Delete</a>  </td>
               <td style="min-width:140px;"> <a class="btn btn-primary"href="fullPost.php?id=<?php echo $commentPostId; ?>" target="_blank">Live Preview</a> </td>
             </tr>
