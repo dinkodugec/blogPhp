@@ -190,6 +190,41 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                 </div>
                 </div>
               </form>
+              <h2>Existing Admin</h2>
+          <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>No. </th>
+                <th>Username</th>
+                <th>Admin Name</th>
+                <th>Added By</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+          <?php
+           global $connectingDB;
+           $sql = "SELECT * FROM admins ORDER BY id desc";
+           $execute = $connectingDB->query($sql);
+           $srno = 0;
+           while($datarows = $execute->fetch()){
+               $adminId = $datarows['id'];
+               $adminUsername = $datarows['username'];
+               $adminName =$datarows['aname'];
+               $addedBy =$datarows['addedby'];
+               $srno++;
+           
+          ?>
+          <tbody>
+          <tr>
+              <td><?php echo htmlentities($srno); ?></td>
+              <td><?php echo htmlentities($adminUsername); ?></td>
+              <td><?php echo htmlentities  ($adminName); ?></td>
+              <td><?php echo htmlentities  ($addedBy); ?></td>
+              <td> <a href="deleteAdmin.php?id=<?php echo $adminId;?>" class="btn btn-danger">Delete</a>  </td>
+          </tr>
+          </tbody>
+          <?php } ?>
+          </table>
            </div>
          </div>
        </section>
