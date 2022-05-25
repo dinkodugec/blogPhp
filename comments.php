@@ -117,7 +117,7 @@
                $commenterName = $datarows['name'];
                $commentContent =$datarows['comment'];
                $commentPostId = $datarows['post_id'];
-               $srno;
+               $srno++;
            
           ?>
           <tbody>
@@ -125,7 +125,7 @@
               <td><?php echo htmlentities($srno); ?></td>
               <td><?php echo htmlentities( $commenterName); ?></td>
               <td><?php echo htmlentities  ($commentContent); ?></td>
-              <td> <a href="approvedComments.php?id=<?php echo $commentId;?>" class="btn btn-success">Approve</a> </td>
+              <td style="min-width: 140px;"> <a href="approvedComments.php?id=<?php echo $commentId;?>" class="btn btn-success">Approve</a> </td>
               <td> <a href="deleteComments.php?id=<?php echo $commentId;?>" class="btn btn-danger">Delete</a>  </td>
               <td style="min-width:140px;"> <a class="btn btn-primary"href="fullPost.php?id=<?php echo $commentPostId; ?>" target="_blank">Live Preview</a> </td>
             </tr>
@@ -163,7 +163,7 @@
               <td><?php echo htmlentities($srno); ?></td>
               <td><?php echo htmlentities( $commenterName); ?></td>
               <td><?php echo htmlentities  ($commentContent); ?></td>
-              <td> <a href="DissApprovedComments.php?id=<?php echo $commentId;?>" class="btn btn-warning">DIS-Approve</a> </td>
+              <td style="min-width: 140px;"> <a href="DissApprovedComments.php?id=<?php echo $commentId;?>" class="btn btn-warning">DIS-Approve</a> </td>
               <td> <a href="deleteComments.php?id=<?php echo $commentId;?>" class="btn btn-danger">Delete</a>  </td>
               <td style="min-width:140px;"> <a class="btn btn-primary"href="fullPost.php?id=<?php echo $commentPostId; ?>" target="_blank">Live Preview</a> </td>
             </tr>

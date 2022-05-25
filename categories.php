@@ -170,6 +170,38 @@ if(isset($_POST['submit'])){        /* this submit must match name which you gav
                 </div>
                 </div>
               </form>
+              <h2>Existing Categories</h2>
+          <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>No. </th>
+                <th>Category Name</th>
+                <th>Creator Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+          <?php
+           global $connectingDB;
+           $sql = "SELECT * FROM category ORDER BY id desc";
+           $execute = $connectingDB->query($sql);
+           $srno = 0;
+           while($datarows = $execute->fetch()){
+               $categoryId = $datarows['id'];
+               $categoryName = $datarows['title'];
+               $categoryAuthor =$datarows['author'];
+               $srno++;
+           
+          ?>
+          <tbody>
+          <tr>
+              <td><?php echo htmlentities($srno); ?></td>
+              <td><?php echo htmlentities( $categoryName); ?></td>
+              <td><?php echo htmlentities  ($categoryAuthor); ?></td>
+              <td> <a href="deleteCategory.php?id=<?php echo $categoryId;?>" class="btn btn-danger">Delete</a>  </td>
+          </tr>
+          </tbody>
+          <?php } ?>
+          </table>
            </div>
          </div>
        </section>
