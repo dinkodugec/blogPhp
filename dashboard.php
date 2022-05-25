@@ -122,7 +122,7 @@
                  <h1 class="lead">Posts</h1>
                  <h4 class="display-5">
                    <i class="fab fa-readme"></i>
-                   100
+                  <?php totalPosts(); ?>
                  </h4>
                </div>
              </div> 
@@ -132,7 +132,7 @@
                  <h1 class="lead">Categories</h1>
                  <h4 class="display-5">
                    <i class="fas fa-folder"></i>
-                   100
+                   <?php totalCategories();  ?>
                  </h4>
                </div>
              </div>   
@@ -142,7 +142,7 @@
                  <h1 class="lead">Admins</h1>
                  <h4 class="display-5">
                    <i class="fas fa-users"></i>
-                   100
+                   <?php totalAdmins(); ?>
                  </h4>
                </div>
              </div>   
@@ -152,7 +152,7 @@
                  <h1 class="lead">Comments</h1>
                  <h4 class="display-5">
                    <i class="fas fa-comments"></i>
-                   100
+                   <?php totalComments();  ?>
                  </h4>
                </div>
              </div>

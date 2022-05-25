@@ -48,5 +48,50 @@ function Login_Attempt($username,$password)
 
  }
 
+ function totalPosts()
+ {
+  global $connectingDB;
+  $sql = "SELECT COUNT(*) FROM posts";
+  $stmt = $connectingDB->query($sql);
+  $totalRows = $stmt->fetch();
+  $totalPosts = array_shift($totalRows);
+  echo $totalPosts;
+ }
+
+ function totalCategories()
+ {
+  global $connectingDB;
+  $sql = "SELECT COUNT(*) FROM category";
+  $stmt = $connectingDB->query($sql);
+  $totalRows = $stmt->fetch();
+  $totalCategories = array_shift($totalRows);
+  echo $totalCategories;
+
+ }
+
+ function totalAdmins()
+ {
+  global $connectingDB;
+  $sql = "SELECT COUNT(*) FROM admins";
+  $stmt = $connectingDB->query($sql);
+  $totalRows = $stmt->fetch();
+  $totalAdmins = array_shift($totalRows);
+  echo $totalAdmins;
+ }
+
+ function totalComments()
+ {
+  global $connectingDB;
+  $sql = "SELECT COUNT(*) FROM comments";
+  $stmt = $connectingDB->query($sql);
+  $totalRows = $stmt->fetch();
+  $totalComments = array_shift($totalRows);
+  echo $totalComments;
+
+ }
+
+
+
+
 
 ?>
