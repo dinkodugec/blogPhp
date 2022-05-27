@@ -166,7 +166,23 @@
              <!--  <td><?php echo  $datetime  ; ?></td> -->
               <td class="table-primary"><?php echo   $admin  ; ?></td>  <!--  if want some blue color for this table row -->
               <td><img src="Upload/<?php echo  $image  ; ?>" width="170px;" height="50px"</td>
-              <td>comments</td>
+              <td>
+                    <?php $total = ApproveCommentsAccordingtoPost($id);
+                    if ($total>0) {
+                      ?>
+                      <span class="badge badge-success">
+                        <?php
+                      echo $total; ?>
+                      </span>
+                        <?php  }   ?>
+                  <?php $total = DisApproveCommentsAccordingtoPost($id);
+                  if ($total>0) {  ?>
+                    <span class="badge badge-danger">
+                      <?php
+                      echo $total; ?>
+                    </span>
+                         <?php  }  ?>
+                </td> 
               <td>
                   <a href="editPost.php?id=<?php echo $id; ?>"><span class="btn btn-warning">Edit</span></a>
                   <a href="deletePost.php?id=<?php echo $id; ?>"><span class="btn btn-danger">Delete</span></a> 

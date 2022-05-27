@@ -90,6 +90,24 @@ function Login_Attempt($username,$password)
 
  }
 
+ function ApproveCommentsAccordingtoPost($postId){
+  global $connectingDB;
+  $sqlApprove = "SELECT COUNT(*) FROM comments WHERE post_id='$postId' AND status='ON'";
+  $stmtApprove =$connectingDB->query($sqlApprove);
+  $rowsTotal = $stmtApprove->fetch();
+  $total = array_shift($rowsTotal);
+  return $total;
+}
+
+function DisApproveCommentsAccordingtoPost($postId){
+  global $connectingDB;
+  $sqlDisApprove = "SELECT COUNT(*) FROM comments WHERE post_id='$postId' AND status='OFF'";
+  $stmtDisApprove =$connectingDB->query($sqlDisApprove);
+  $rowsTotal = $stmtDisApprove->fetch();
+  $total = array_shift($rowsTotal);
+  return $total;
+}
+
 
 
 

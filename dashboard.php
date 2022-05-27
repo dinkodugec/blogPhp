@@ -158,6 +158,71 @@
              </div>
         </div>
           <!--   Left Side Area End -->
+           <!-- Right Side Area Start -->
+        <div class="col-lg-10">
+          <?php
+           echo ErrorMessage();
+           echo SuccessMessage();
+           ?>
+          <h1>Top Posts</h1>
+          <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>No.</th>
+                <th>Title</th>
+                <th>Date&Time</th>
+                <th>Author</th>
+                <th>Comments</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <?php
+            $SrNo = 0;
+            global $connectingDB;
+            $sql = "SELECT * FROM posts ORDER BY id desc LIMIT 0,6";
+            $stmt = $connectingDB->query($sql);
+            while ($dataRows=$stmt->fetch()) {
+              $postId = $dataRows["id"];
+              $dateTime = $dataRows["datetime"];
+              $author  = $dataRows["author"];
+              $title = $dataRows["title"];
+              $SrNo++;
+             ?>
+            <tbody>
+              <tr>
+                <td><?php echo $SrNo; ?></td>
+                <td><?php echo $title; ?></td>
+                <td><?php echo  $dateTime; ?></td>         
+                <td><?php echo $author; ?></td>
+                <td>
+                    <?php $total = ApproveCommentsAccordingtoPost($postId);
+                    if ($total>0) {
+                      ?>
+                      <span class="badge badge-success">
+                        <?php
+                      echo $total; ?>
+                      </span>
+                        <?php  }   ?>
+                  <?php $total = DisApproveCommentsAccordingtoPost($postId);
+                  if ($total>0) {  ?>
+                    <span class="badge badge-danger">
+                      <?php
+                      echo $total; ?>
+                    </span>
+                         <?php  }  ?>
+                </td> 
+                <td> <a target="_blank" href="fullPost.php?id=<?php echo $postId; ?>">
+                  <span class="btn btn-info">Preview</span>
+                </a>
+              </td>
+              </tr>
+            </tbody>
+            <?php } ?>
+
+          </table>
+
+        </div>
+        <!-- Right Side Area End -->
       </div>
 
       </section>
