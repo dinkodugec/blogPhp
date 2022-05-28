@@ -85,7 +85,7 @@
                 ?>
               <?php
                    global $connectingDB;
-
+                // SQL  query when search button is active
                   if(isset($_GET['searchButton'])){
                     $search = $_GET['search'];
                     $sql = "SELECT * FROM posts 
@@ -95,7 +95,18 @@
                             $stmt=$connectingDB->prepare($sql);
                             $stmt->bindValue(':search', '%'.$search.'%');
                             $stmt->execute();
-                    }else{
+                    }// Query When Pagination is Active i.e Blog.php?page=1
+                    elseif(isset($_GET['page'])){
+                        $page = $_GET['page'];
+                        If($page==0 || $page<1){
+                          $showPostFrom=0;
+                        }else{
+                          $showPostFrom = ($page*4)-4;
+                        }
+                        $sql = "SELECT * FROM posts ORDER BY id desc LIMIT $showPostFrom,4";
+                        $stmt = $connectingDB->query($sql);
+                    }
+                    else{
                     $sql= "SELECT * FROM posts ORDER BY id DESC";   /* beacause is desc it shows last post */
                     $stmt=$connectingDB->query($sql);
                   }   
