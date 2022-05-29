@@ -107,7 +107,7 @@
                         $stmt = $connectingDB->query($sql);
                     }
                     else{
-                    $sql= "SELECT * FROM posts ORDER BY id DESC";   /* beacause is desc it shows last post */
+                    $sql= "SELECT * FROM posts ORDER BY id DESC LIMIT 0,3";   /* beacause is desc it shows last post */
                     $stmt=$connectingDB->query($sql);
                   }   
                   
@@ -145,26 +145,47 @@
 
           <!--     Pagination  -->
 
-             <nav>
-              <ul class="pagination pagination-lg">
-               <?php
-                 global $connectingDB;
-                 $sql = "SELECT COUNT(*) FROM posts";
-                 $stmt = $connectingDB->query($sql);
-                 $rowPagination = $stmt->fetch();
-                 $totalPosts = array_shift($rowPagination);
-                /*  echo $totalPosts . "<br>"; */
-                 $postPagination = $totalPosts/5;
-                 $postPagination = ceil($postPagination);
-                /*  echo $postPagination; */
-                 for($i=1; $i <=$postPagination; $i++){
-                 ?>
-                <li class="page-item">
-                   <a href="blog.php?page=<?php echo $i; ?>" class="page-link"><?php echo $i; ?></a>
-                </li> 
-                <?php } ?>
-              </ul>
-             </nav>
+          <nav>
+            <ul class="pagination pagination-lg">
+              <!-- Creating Backward Button -->
+              <?php if(isset($page) ) {
+                if ($page>1 ) {?>
+             <li class="page-item">
+                 <a href="blog.php?page=<?php echo $page-1; ?>" class="page-link">&laquo;</a>
+               </li>
+             <?php } }?>
+            <?php
+            global $connectingDB;
+            $sql           = "SELECT COUNT(*) FROM posts";
+            $stmt          = $connectingDB->query($sql);
+            $rowPagination = $stmt->fetch();
+            $totalPosts    = array_shift($rowPagination);
+            // echo $totalPosts."<br>";
+            $postPagination=$totalPosts/5;
+            $postPagination=ceil($postPagination);
+            // echo $postPagination;
+            for ($i=1; $i <=$postPagination ; $i++) {
+              if( isset($page) ){
+                if ($i == $page) {  ?>
+              <li class="page-item active">
+                <a href="blog.php?page=<?php  echo $i; ?>" class="page-link"><?php  echo $i; ?></a>
+              </li>
+              <?php
+            }else {
+              ?>  <li class="page-item">
+                  <a href="blog.php?page=<?php  echo $i; ?>" class="page-link"><?php  echo $i; ?></a>
+                </li>
+            <?php  }
+          } } ?>
+          <!-- Creating Forward Button -->
+          <?php if ( isset($page) && !empty($page) ) {
+            if ($page+1 <= $postPagination) {?>
+         <li class="page-item">
+             <a href="blog.php?page=<?php  echo $page+1; ?>" class="page-link">&raquo;</a>
+           </li>
+         <?php } }?>
+            </ul>
+          </nav>
           </div>
         <!--   **********Main Area End********** -->
 
