@@ -101,9 +101,9 @@
                         If($page==0 || $page<1){
                           $showPostFrom=0;
                         }else{
-                          $showPostFrom = ($page*4)-4;
+                          $showPostFrom = ($page*5)-5;
                         }
-                        $sql = "SELECT * FROM posts ORDER BY id desc LIMIT $showPostFrom,4";
+                        $sql = "SELECT * FROM posts ORDER BY id desc LIMIT $showPostFrom,5";
                         $stmt = $connectingDB->query($sql);
                     }
                     else{
@@ -142,6 +142,29 @@
                 </div>
              </div>     
               <?php } ?>    <!--  Ending while loop -->
+
+          <!--     Pagination  -->
+
+             <nav>
+              <ul class="pagination pagination-lg">
+               <?php
+                 global $connectingDB;
+                 $sql = "SELECT COUNT(*) FROM posts";
+                 $stmt = $connectingDB->query($sql);
+                 $rowPagination = $stmt->fetch();
+                 $totalPosts = array_shift($rowPagination);
+                /*  echo $totalPosts . "<br>"; */
+                 $postPagination = $totalPosts/5;
+                 $postPagination = ceil($postPagination);
+                /*  echo $postPagination; */
+                 for($i=1; $i <=$postPagination; $i++){
+                 ?>
+                <li class="page-item">
+                   <a href="blog.php?page=<?php echo $i; ?>" class="page-link"><?php echo $i; ?></a>
+                </li> 
+                <?php } ?>
+              </ul>
+             </nav>
           </div>
         <!--   **********Main Area End********** -->
 
