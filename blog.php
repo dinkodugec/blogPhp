@@ -17,6 +17,18 @@
     />
     <link rel="stylesheet" href="css/styles.css">
     <title>Blog php</title>
+    <style media="screen">
+      .heading {
+          font-family: Bitter, Georgia, "Times New Roman", Times, serif;
+          font-weight: bold;
+          color: #005E90;
+        }
+
+        .heading:hover {
+          color: #0090DB;
+        }
+
+    </style>
   </head>
   <body>
     <!--  <h1 class="display-1">Hello World</h1>
@@ -178,12 +190,12 @@
             <?php  }
           } } ?>
           <!-- Creating Forward Button -->
-          <?php if ( isset($page) && !empty($page) ) {
-            if ($page+1 <= $postPagination) {?>
-         <li class="page-item">
-             <a href="blog.php?page=<?php  echo $page+1; ?>" class="page-link">&raquo;</a>
+          <?php  if(isset($page) && !empty($page) ) {
+                  if($page+1 <= $postPagination) {?>
+                    <li class="page-item">
+                    <a href="blog.php?page=<?php  echo $page+1; ?>" class="page-link">&raquo;</a>
            </li>
-         <?php } }?>
+            <?php } }?>
             </ul>
           </nav>
           </div>
@@ -193,9 +205,49 @@
         
         
         <!--    ********Side Area********* -->
-          <div class="col-sm-4" style="min-height:40px; background:green; ">
-
-          </div>
+          <div class="col-sm-4">
+               <div class="card mt-4">
+                  <div class="card-body">
+                    <img src="images/startblog.png" class="d-block img-fluid mb-3" alt="">
+                    <div class="text-center">
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veniam, possimus eveniet! Ipsa beatae ipsam, 
+                       molestiae amet, 
+                      vel quidem doloribus odio aliquam dolor tempore neque non libero harum nesciunt exercitationem iusto.
+                    </div>
+                  </div>
+               </div>
+               <br>
+               <div class="card">
+                 <div class="card-header bg-dark text-light">
+                  <h2 class="lead">Sign Up</h2>
+                 </div>
+                 <div class="card-body">
+                   <button type="button" class="btn btn-success btn-block text-center text-white mb-4" name="button">Join Forum</button>
+                   <button type="button" class="btn btn-danger btn-block text-center text-white mb-4" name="button">Login</button>
+                   <div class="input-group mb-3">
+                     <input type="text" class="form-control" name="" placeholder="Enter your email" value="">
+                     <button type="button" class="btn btn-primary btn-sm text-center text-white" name="button">Subscribe now</button>
+                   </div>
+                 </div>
+               </div>
+               <div class="card">
+                 <div class="card-header bg-primary text-light">
+                   <h2 class="lead">Categories</h2>
+                   <div class="card-body">
+                     <?php
+                       global $connectingDB;
+                       $sql = "SELECT * FROM category ORDER BY id desc";
+                       $stmt = $connectingDB->query($sql);
+                       while ($dataRows = $stmt->fetch()) {
+                        $categoryId     = $dataRows['id'];
+                        $categoryName  = $dataRows['title'];
+                        ?>
+                        <a href="blog.php?category=<?php echo $categoryName; ?>"><span class="heading"><?php echo $categoryName; ?></span></a> <br>
+                      <?php } ?>
+                   </div>
+                 </div>
+               </div>
+           </div>
         <!--   ************Side Area End********* -->
         </div>
       </div>
