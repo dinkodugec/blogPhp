@@ -14,58 +14,51 @@
     $stmt = $connectingDB->query($sql);
     while($dataRows = $stmt->fetch()){
       $existingName = $dataRows['aname'];
+      $existingUsername = $dataRows['username'];
+      $existingHeadline = $dataRows['aheadline'];
+      $existingBio = $dataRows['abio'];
+      $existingImage = $dataRows['aimage'];
+
     }
     /* fetching existing admin data end */
 
-    if(isset($_POST['submit'])){        /* this submit must match name which you gave this buttom */
-      $postTitle = $_POST['postTitle'];
-      $category=$_POST['category'];
+    if(isset($_POST['submit'])){   
+      $aName = $_POST['name'];
+      $headline = $_POST['headline'];
+      $bio = $_POST['bio'];
       $image = $_FILES['image']['name'];
-      $target = "Upload/".basename( $_FILES['image']['name']);
-      $postText = $_POST['postDescription'];
-      $admin = $_SESSION["username"];
-
-
-    date_default_timezone_set("Asia/Karachi");
-    $currentTime=time();
-    $dateTime=strftime("%B-%d-%Y %H:%M:%S", $currentTime);
+      $target = "Images/".basename( $_FILES['image']['name']);
     
-
-
      
-    if(empty($postTitle)){
-      $_SESSION['ErrorMesage'] = "Title can not be empty";
-      redirectTo("addNewPost.php");
-          }elseif(strlen($postTitle)<5){
-            $_SESSION['ErrorMesage'] = "Post title should be greather than two charachters ";
-            redirectTo("addNewPost.php");
-          }elseif(strlen($postTitle)>9999){   /* because we put in database varchar(50) */
-            $_SESSION['ErrorMesage'] = "Post description should be less than 1000 charachters ";
-            redirectTo("addNewPost.php");
+    if(strlen($headline)>12){
+            $_SESSION['ErrorMessage'] = "Headline should be less than 12 charachters";
+            redirectTo("myProfile.php");
+          }elseif(strlen($bio)>255){   
+            $_SESSION['ErrorMessage'] = "Bio should be less than 1000 charachters ";
+            redirectTo("myProfile.php");
         }else{
-            //query to insert post in DB when everything is fine
+            //query to update admin data in DB when everything is fine
             global $connectingDB;
-            $sql = "INSERT INTO posts(title,category,author,image,post)";
-            $sql .= "VALUES(:postTitle,:categoryName,:adminName, :imageName,:postDescription)";
-            $stmt = $connectingDB->prepare($sql);
-            $stmt->bindValue(':postTitle',$postTitle);
-            $stmt->bindValue(':categoryName',$category);
-            $stmt->bindValue(':adminName', $admin);
-            $stmt->bindValue(':imageName', $image);
-            $stmt->bindValue(':postDescription',$postText);
-
-          /*   $stmt->bindValue(':dateTime',$datetime); */
-
-            $excute=$stmt->execute();
+           if(!empty($_FILES['image']['name'])){
+              $sql = "UPDATE admins
+                      SET aname='$aName', headline='$headline', bio='$bio', image='$image'
+              WHERE id='$adminId'";
+           }else{
+            $sql = "UPDATE admins
+                    SET aname='$aName', headline='$headline', bio='$bio'
+                    WHERE id='$adminId'";
+           }
+        
+           $excute = $connectingDB->query($sql);
 
             move_uploaded_file($_FILES['image']['tmp_name'], $target);
 
             if($excute){
-              $_SESSION['SuccessMessage']="Post with id : ".$connectingDB->lastInsertId()."Added Successfully";
-              redirectTo('addNewPost.php');
+              $_SESSION['SuccessMessage']="Details Updated successfully";
+              redirectTo('myProfile.php');
             }else{
-              $_SESSION['ErrorMesage'] = "It is wrong sometimes ";
-              redirectTo("addNewPost.html");
+              $_SESSION['ErrorMessage'] = "It is wrong sometimes ";
+              redirectTo("myProfile.php");
             }
         }
 
@@ -148,7 +141,7 @@
       <div class="container">
             <div class="row">
                   <div class="col-md-12">
-                    <h1><i class="fas fa-user mr-2"></i>My Profile</h1>
+                    <h1><i class="fas fa-user mr-2"></i><?php  echo  $existingUsername; ?></h1>
                   </div>
             </div>
       </div>
@@ -166,10 +159,9 @@
                   <h3><?php  echo $existingName;  ?></h3>
                </div>
                <div class="card-body">
-                 <img src="images/zoe.jpg" class="block img-b-3" alt="">
+                 <img src="images/<?php echo $existingImage  ; ?>" class="block img-fluid mb-3" alt="">
                  <div>
-                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ullam quod et enim commodi exercitationem expedita fuga quasi placeat, temporibus aspernatur, 
-                   hic quibusdam suscipit error vitae debitis vel reiciendis provident ratione.
+                    <?php echo $existingBio;  ?>
                  </div>
                </div>
              </div>
@@ -181,12 +173,12 @@
                 ?>
               <form action="myProfile.php" method="post" enctype="multipart/form-data">
                 <div class="card bg-secondary text-light">
-                  <div class="card-header bg-secondary twxt-light">
+                  <div class="card-header bg-secondary text-light">
                     <h4>Edit Profile</h4>
                   </div>
                   <div class="card-body">
                     <div class="form-group">
-                      <input class="form-control" type="text" name="name" id="title" placeholder="Your name" value="">                    
+                      <input class="form-control" type="text" name="name" placeholder="Your name">                    
                     </div>
                     <div class="form-group">
                       <input class="form-control" type="text" name="headline" placeholder="headline">
@@ -194,12 +186,12 @@
                       <span class="text-danger">Not more than 12 charachters</span>
                     </div>
                     <div class="form-group">
-                      <textarea placeholder="BIO" class="form-control" name="bio" id="post" cols="30" rows="10"></textarea>
+                      <textarea placeholder="BIO" class="form-control" name="bio" cols="30" rows="10"></textarea>
                     </div>
                     
                     <div class="form-group">
                         <div class="custom-file">
-                         <input class="custom-file-input" type="file" name="image" id="imageSelect" value="">
+                         <input class="custom-file-input" type="file" name="image">
                          <label for="imageSelect" class="custom-file-label">Select Image</label>
                        </div>
                     </div>
