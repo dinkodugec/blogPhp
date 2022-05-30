@@ -241,7 +241,7 @@ if(isset($_POST["submit"])){        /* this submit must match name which you gav
         
         <!--    ********Side Area********* -->
           <div class="col-sm-4" style="min-height:40px; background:green; ">
-
+            
           </div>
         <!--   ************Side Area End********* -->
         </div>

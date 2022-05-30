@@ -252,6 +252,33 @@
                       <?php } ?>
                    </div>
                  </div>
+                 <br>
+                 <div class="card">
+            <div class="card-header bg-info text-white">
+              <h2 class="lead"> Recent Posts</h2>
+            </div>
+            <div class="card-body">
+              <?php
+              global $connectingDB;
+              $sql= "SELECT * FROM posts ORDER BY id desc LIMIT 0,5";
+              $stmt= $connectingDB->query($sql);
+              while ($dataRows=$stmt->fetch()) {
+                $id     = $dataRows['id'];
+                $title  = $dataRows['title'];
+                $dateTime = $dataRows['datetime'];
+                $image = $dataRows['image'];
+              ?>
+              <div class="media">
+                <img src="Upload/<?php echo htmlentities($image); ?>" class="d-block img-fluid align-self-start"  width="90" height="94" alt="">
+                <div class="media-body ml-2">
+                <a style="text-decoration:none;"href="fullPost.php?id=<?php echo htmlentities($id) ; ?>" target="_blank">  <h6 class="lead"><?php echo htmlentities($title); ?></h6> </a>
+                  <p class="small"><?php echo htmlentities($dateTime); ?></p>
+                </div>
+              </div>
+              <hr>
+              <?php } ?>
+            </div>
+          </div>
                </div>
            </div>
         <!--   ************Side Area End********* -->
