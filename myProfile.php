@@ -179,39 +179,31 @@
                 <?php echo ErrorMessage();
                       echo SuccessMessage();
                 ?>
-              <form action="addNewPost.php" method="post" enctype="multipart/form-data">
-                <div class="card bg-secondary text-light mb-3">
-                  <div class="card-body bg-dark">
+              <form action="myProfile.php" method="post" enctype="multipart/form-data">
+                <div class="card bg-secondary text-light">
+                  <div class="card-header bg-secondary twxt-light">
+                    <h4>Edit Profile</h4>
+                  </div>
+                  <div class="card-body">
                     <div class="form-group">
-                      <label for="title"><span class="fieldInfo">Post Title:</span> </label>
-                      <input class="form-control" type="text" name="postTitle" id="title" placeholder="Type title here" value="">
+                      <input class="form-control" type="text" name="name" id="title" placeholder="Your name" value="">                    
                     </div>
                     <div class="form-group">
-                      <label for="categoryTitle"><span class="fieldInfo">Choose Category:</span> </label>
-                        <select class="form-control" name="category" id="categoryTitle">
-                           <?php
-                               global $connectingDB;
-                               $sql = "SELECT id,title FROM category";
-                               $stmt = $connectingDB->query($sql);
-                               while($dataRows = $stmt->fetch()){
-                                    $id = $dataRows['id'];
-                                    $categoryName = $dataRows['title'];
-                               
-                            ?>
-                            <option><?php echo$categoryName; ?></option>
-                            <?php } ?>
-                        </select>
+                      <input class="form-control" type="text" name="headline" placeholder="headline">
+                      <small class="text-muted">Add a professional headline like, 'Enginer' at XYZ or  'Arhitect'</small>
+                      <span class="text-danger">Not more than 12 charachters</span>
                     </div>
+                    <div class="form-group">
+                      <textarea placeholder="BIO" class="form-control" name="bio" id="post" cols="30" rows="10"></textarea>
+                    </div>
+                    
                     <div class="form-group">
                         <div class="custom-file">
                          <input class="custom-file-input" type="file" name="image" id="imageSelect" value="">
                          <label for="imageSelect" class="custom-file-label">Select Image</label>
                        </div>
                     </div>
-                    <div class="form-group">
-                      <label for="post"><span class="fieldInfo">Post :</span></label>
-                      <textarea class="form-control" name="postDescription" id="post" cols="30" rows="10"></textarea>
-                    </div>
+                   
                     <div class="row">
                        <div class="col-lg-6 mb-2">
                          <a href="dashboard.php" class="btn btn-warning btn-block"><i class="fas fa-arrow-left"></i>Back To Dashboard</a>
