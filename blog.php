@@ -110,13 +110,19 @@
                     }// Query When Pagination is Active i.e Blog.php?page=1
                     elseif(isset($_GET['page'])){
                         $page = $_GET['page'];
-                        If($page==0 || $page<1){
+                         if($page==0 || $page<1){
                           $showPostFrom=0;
                         }else{
                           $showPostFrom = ($page*5)-5;
                         }
                         $sql = "SELECT * FROM posts ORDER BY id desc LIMIT $showPostFrom,5";
                         $stmt = $connectingDB->query($sql);
+                        //Query when category is active in URL tab
+                    }elseif(isset($_GET['category'])){
+                        $category = $_GET['category'];
+                        $sql = "SELECT * FROM posts WHERE category='$category' ORDER BY id desc";
+                        $stmt = $connectingDB->query($sql);
+
                     }
                     else{
                     $sql= "SELECT * FROM posts ORDER BY id DESC LIMIT 0,3";   /* beacause is desc it shows last post */
