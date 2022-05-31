@@ -144,7 +144,7 @@
                 <img src="Upload/<?php echo htmlentities($image) ;?>" style="max: height 450px;" class="img-fluid card-img-top"/>
                 <div class="card-body">
                    <h4 class="card-title"><?php echo htmlentities($postTitle)  ;?></h4>
-                   <small class="text-muted">Category: <span class="text-dark"> <a href="blog.php?category=<?php echo htmlentities($category); ?>"> <?php echo htmlentities($category); ?> </a></span> & Written by <span class="text-dark"> <a href="Profile.php?username=<?php echo htmlentities($admin); ?>"> <?php echo htmlentities($admin); ?></a></small>
+                   <small class="text-muted">Category: <span class="text-dark"> <a href="blog.php?category=<?php echo htmlentities($category); ?>"> <?php echo htmlentities($category); ?> </a></span> & Written by <span class="text-dark"> <a href="profile.php?username=<?php echo htmlentities($admin); ?>"> <?php echo htmlentities($admin); ?></a></small>
                    <span style="float:right;" class="badge badge-dark text-light">Comments 
                    <?php echo ApproveCommentsAccordingtoPost($postId);  ?></span>
                    <hr>

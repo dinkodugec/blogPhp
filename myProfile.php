@@ -24,28 +24,28 @@
 
     if(isset($_POST['submit'])){   
       $aName = $_POST['name'];
-      $headline = $_POST['headline'];
-      $bio = $_POST['bio'];
-      $image = $_FILES['image']['name'];
+      $aHeadline = $_POST['headline'];
+      $aBio = $_POST['bio'];
+      $aImage = $_FILES['image']['name'];
       $target = "Images/".basename( $_FILES['image']['name']);
     
      
-    if(strlen($headline)>12){
-            $_SESSION['ErrorMessage'] = "Headline should be less than 12 charachters";
+    if(strlen($aHeadline)>30){
+            $_SESSION['ErrorMessage'] = "Headline should be less than 30 charachters";
             redirectTo("myProfile.php");
-          }elseif(strlen($bio)>255){   
-            $_SESSION['ErrorMessage'] = "Bio should be less than 1000 charachters ";
+          }elseif(strlen($aBio)>255){   
+            $_SESSION['ErrorMessage'] = "Bio should be less than 500 charachters ";
             redirectTo("myProfile.php");
         }else{
             //query to update admin data in DB when everything is fine
             global $connectingDB;
-           if(!empty($_FILES['image']['name'])){
+             if(!empty($_FILES['image']['name'])){
               $sql = "UPDATE admins
-                      SET aname='$aName', headline='$headline', bio='$bio', image='$image'
+                      SET aname='$aName', aheadline='$aHeadline', abio='$aBio', aimage='$aImage'
               WHERE id='$adminId'";
            }else{
             $sql = "UPDATE admins
-                    SET aname='$aName', headline='$headline', bio='$bio'
+                    SET aname='$aName', aheadline='$aHeadline', abio='$aBio'
                     WHERE id='$adminId'";
            }
         
