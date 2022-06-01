@@ -143,6 +143,11 @@ if(isset($_POST["submit"])){        /* this submit must match name which you gav
                       }
                     $sql= "SELECT * FROM posts WHERE id='$postIdFromUrl'";   
                     $stmt=$connectingDB->query($sql);
+                    $result = $stmt->rowCount();
+                    if($result!=1){
+                      $_SESSION['ErrorMessage']="BAD REQUEST";
+                      redirectTo("blog.php?page=1") ;
+                    }
                   }   
                   
 
@@ -165,7 +170,7 @@ if(isset($_POST["submit"])){        /* this submit must match name which you gav
                    <hr>
                    <p class="card-text">
                      <?php 
-                     echo htmlentities($postDescription)  ;?></</p>
+                     echo nl2br($postDescription)  ;?></</p>
                   
                 </div>
              </div>     
