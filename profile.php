@@ -1,3 +1,31 @@
+<?php require_once("Includes/db.php") ;?>
+<?php require_once("Includes/functions.php") ;?>
+<?php require_once("Includes/sessions.php") ;?>
+
+<?php
+   $searchQueryParameter = $_GET['username'];
+   global $connectingDB;
+   $sql = "SELECT aname, aheadline,abio,aimage FROM admins WHERE username=:username";
+   $stmt = $connectingDB->prepare($sql);
+   $stmt->bindValue(':username', $searchQueryParameter);
+   $stmt->execute();
+   $result = $stmt->rowCount();
+
+   if($result==1){
+     while($dataRows = $stmt->fetch()){
+       $existingName = $dataRows['aname'];
+       $existingBio = $dataRows['abio'];
+       $existingImage = $dataRows['aimage'];
+       $existingHeadline = $dataRows['aheadline'];
+     }
+   }else{
+     $_SESSION['ErrorMessage']="BAD REQUEST";   //do not trust no one
+     redirectTo("blog.php?page=1");
+   }
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -72,8 +100,8 @@
       <div class="container">
             <div class="row">
                   <div class="col-md-6">
-                    <h1><i class="fas fa-user text-success mr-2" style="color:#27aae1"></i>Name</h1>
-                    <h3>Headline</h3>
+                    <h1><i class="fas fa-user text-success mr-2" style="color:#27aae1"></i><?php echo $existingName; ?></h1>
+                    <h3><?php echo $existingHeadline; ?></h3>
                   </div>
             </div>
       </div>
@@ -83,13 +111,12 @@
     <section class="container py-2 mb-4">
        <div class="row">
          <div class="col-md-3">
-            <img src="images/avatar.png" class="d-block img-fluid mb-3 rounded-circle" alt="">
+            <img src="images/<?php echo $existingImage; ?>" class="d-block img-fluid mb-3 rounded-circle" alt="">
          </div>
-         <div class="col-md-9">
+         <div class="col-md-9" style="min-height:400px">
            <div class="card">
              <div class="card-body">
-               <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi fuga eaque dicta, quo incidunt id laborum accusantium illum
-                  temporibus pariatur obcaecati consequuntur ducimus similique illo cupiditate adipisci sunt architecto. Quae.</p>
+               <p class="lead"><?php echo $existingBio;?></p>
              </div>
            </div>
          </div>
